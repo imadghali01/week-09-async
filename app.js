@@ -20,7 +20,6 @@ const colorArray = ["yellow", "red", "cyan", "violet", "green", "purple"];
 body.style.height = '100vh';
 body.style.backgroundColor = `${colorArray[0]}`
 function changeBGColor(array){
-    const passArray = array;
     setTimeout(() => {
         body.style.backgroundColor =`${array[1]}`;
         setTimeout(() => {
