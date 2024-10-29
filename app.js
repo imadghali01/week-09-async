@@ -1,40 +1,50 @@
-/*
-    Write a program that gives the body background the color blue
-    1 second later it becomes yellow
-    1 second later it becomes red
-    1 second later it becomes cyan
-    1 second later it becomes violet
-    1 second later it becomes green
-    1 second later it becomes purple
-
-Sounds pretty simple isn'it ?
-
-But here are the restrictions :
-
-    You CAN'T use setInterval
-    You MUST set your setTimeout to 1 second for each color. (no doing maths counting 1,2,3,4,5 etc.)
-*/
-const body = document.querySelector('body');
-const colorArray = ["yellow", "red", "cyan", "violet", "green", "purple"];
-
-body.style.height = '100vh';
-body.style.backgroundColor = `${colorArray[0]}`
-function changeBGColor(array){
+const fakeCallToAnAPI = (url, success, failure) => {
+    // Creates a random number of seconds it will take.
+    const delay = Math.floor(Math.random() * 4500) + 500;
+  
+    // After the random time, it checks if it's greater than 4 seconds, in which case it's a timeout failure. Otherwise, if it's sooner, it returns the data.
     setTimeout(() => {
-        body.style.backgroundColor =`${array[1]}`;
-        setTimeout(() => {
-            body.style.backgroundColor =`${array[2]}`;
-            setTimeout(() => {
-                body.style.backgroundColor =`${array[3]}`;
-                setTimeout(() => {
-                    body.style.backgroundColor =`${array[4]}`;
-                    setTimeout(() => {
-                        body.style.backgroundColor =`${array[5]}`;
-                    }, 1000); 
-                }, 1000); 
-            }, 1000); 
-        }, 1000); 
-    }, 1000);       
-}
-
-changeBGColor(colorArray);
+      if (delay > 4000) {
+        failure("Connection Timeout ! :(");
+      } else {
+        success(`Here is your fake data from ${url}`);
+      }
+    }, delay);
+  };
+  
+fakeCallToAnAPI(
+    "api/movies",
+    // The callback if it's a success
+    (msg) => {
+      console.log("SUCCESS (1)");
+      console.log(msg);
+      fakeCallToAnAPI(
+        "api/movies/7",
+        // The callback if it's a success
+        (msg) => {
+          console.log("SUCCESS (2)");
+          console.log(msg);
+          fakeCallToAnAPI(
+            "api/pictures/7",
+            // The callback if it's a success
+            (msg) => {
+              console.log("SUCCESS (3)");
+              console.log(msg);
+            }, // The callback if there was an error
+            (msg) => {
+              console.log("ERROR (3)");
+              console.log(msg);
+            }
+          );
+        }, // The callback if there was an error
+        (msg) => {
+          console.log("ERROR (2)");
+          console.log(msg);
+        }
+      );
+    }, // The callback if there was an error
+    (msg) => {
+      console.log("ERROR (1)");
+      console.log(msg);
+    }
+);
