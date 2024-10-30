@@ -94,7 +94,8 @@ const mealsModal = (meal) => {
     modal.style.overflowY = 'auto';
     modal.style.zIndex = '1000'; // Un z-index élevé pour le premier plan
     modal.style.backgroundColor = 'rgba(119, 51, 255, 0.9)';
-    modal.style.padding = '20px';
+    modal.style.padding = '30px';
+    modal.style.borderRadius = '20px';
 
     // Centrer la modale
     modal.style.position = 'fixed'; // Position fixe
@@ -104,28 +105,22 @@ const mealsModal = (meal) => {
 
     modalImg.style.width = '500px';
     modalImg.style.height = 'auto';
-
-    modalList.style.display = 'flex';
-    modalList.style.flexWrap = 'wrap';
-    modalList.style.listStyle = 'none';
-    modalList.style.rowGap = '20 px';
     
     // Remplissage des informations du modal
     modalImg.src = meal.strMealThumb;
     modalTitle.innerText = meal.strMeal;
     modalP.innerText = meal.strInstructions;
-    
     // Effacer les anciens ingrédients
     modalList.innerHTML = '';
 
     // Récupération des ingrédients et quantités
-    for (let i = 1; i <= 20; i++) { // L'API a au maximum 20 ingrédients
+    for (let i = 1; i < 20; i++) { // L'API a au maximum 20 ingrédients
         const ingredient = meal[`strIngredient${i}`];
         const measure = meal[`strMeasure${i}`];
 
         if (ingredient && ingredient.trim() !== '') {
             const listItem = document.createElement('li');
-            listItem.innerText = `${ingredient} - ${measure} ... `;
+            listItem.innerText = `${ingredient} - ${measure}`;
             modalList.appendChild(listItem);
         }
     }
