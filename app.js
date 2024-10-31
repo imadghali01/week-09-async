@@ -142,6 +142,7 @@ closeModalButton.innerText = 'Fermer';
 closeModalButton.style.background = 'linear-gradient(236.56deg, #2C2D65 0.35%, #201F22 100%)';
 closeModalButton.style.color = 'white';
 closeModalButton.style.border = 'none';
+closeModalButton.style.borderRadius = '10px';
 closeModalButton.style.fontWeight = '500';
 closeModalButton.addEventListener('click', () => {
     modal.style.display = 'none'; // Masque la modale
