@@ -5,10 +5,11 @@ const input = document.querySelector('#search');
 const button = document.querySelector('button');
 const mealGrid = document.querySelector('.mealGrid');
 const modal = document.querySelector('.modal');
-const modalImg = document.querySelector('.modalImg');
+const modalImg = document.querySelector('.modalImg'); // Conteneur pour l'image
 const modalTitle = document.querySelector('.modalTitle');
 const modalList = document.querySelector('.modalList');
 const modalP = document.querySelector('.modalP');
+const modalContent = document.querySelector('.modalContent'); // Sélection du div parent pour flex
 
 // STYLE
 body.style.background = 'linear-gradient(236.56deg, #2C2D65 0.35%, #201F22 100%)';
@@ -23,6 +24,11 @@ container.style.color = 'white';
 mealGrid.style.display = 'flex';
 mealGrid.style.flexWrap = 'wrap';
 mealGrid.style.gap = '30px';
+
+// Style Flexbox pour le contenu de la modale (image et liste)
+modalContent.style.display = 'flex';
+modalContent.style.alignItems = 'flex-start';
+modalContent.style.gap = '20px';
 
 // Initial state of the modal
 modal.style.display = 'none';
@@ -84,37 +90,42 @@ const mealsCards = (mymeals) => {
 };
 
 // Fonction pour afficher le modal avec les détails du repas sélectionné
-// Fonction pour afficher le modal avec les détails du repas sélectionné
 const mealsModal = (meal) => {
-    // Style et affichage de la modale
-    modal.style.display = 'flex'; // S'assurer que le display est bien 'flex'
+    // Styles de la modale
+    modal.style.display = 'flex';
     modal.style.flexDirection = 'column';
     modal.style.gap = '10px';
     modal.style.maxHeight = '75vh';
     modal.style.overflowY = 'auto';
-    modal.style.zIndex = '1000'; // Un z-index élevé pour le premier plan
+    modal.style.zIndex = '1000';
     modal.style.backgroundColor = 'rgba(119, 51, 255, 0.9)';
     modal.style.padding = '30px';
     modal.style.borderRadius = '20px';
 
-    // Centrer la modale
-    modal.style.position = 'fixed'; // Position fixe
-    modal.style.top = '50%'; // Positionner à 50% du haut de la fenêtre
-    modal.style.left = '50%'; // Positionner à 50% de la gauche de la fenêtre
-    modal.style.transform = 'translate(-50%, -50%)'; // Centrer vraiment
+    modal.style.position = 'fixed';
+    modal.style.top = '50%';
+    modal.style.left = '50%';
+    modal.style.transform = 'translate(-50%, -50%)';
 
-    modalImg.style.width = '500px';
-    modalImg.style.height = 'auto';
-    
+    // Effacer l'image précédente si elle existe
+    modalImg.innerHTML = '';
+
+    // Créer et ajouter une balise <img> pour afficher l'image
+    const imageElement = document.createElement('img');
+    imageElement.src = meal.strMealThumb;
+    imageElement.style.width = '300px';
+    imageElement.style.height = 'auto';
+    modalImg.appendChild(imageElement); // Ajoute l'image dans le conteneur modalImg
+
     // Remplissage des informations du modal
-    modalImg.src = meal.strMealThumb;
     modalTitle.innerText = meal.strMeal;
     modalP.innerText = meal.strInstructions;
+
     // Effacer les anciens ingrédients
     modalList.innerHTML = '';
 
     // Récupération des ingrédients et quantités
-    for (let i = 1; i < 20; i++) { // L'API a au maximum 20 ingrédients
+    for (let i = 1; i < 20; i++) {
         const ingredient = meal[`strIngredient${i}`];
         const measure = meal[`strMeasure${i}`];
 
@@ -125,15 +136,17 @@ const mealsModal = (meal) => {
         }
     }
 };
-
-// Exemple de bouton pour fermer le modal (facultatif, mais recommandé)
+// Exemple de bouton pour fermer le modal
 const closeModalButton = document.createElement('button');
 closeModalButton.innerText = 'Fermer';
+closeModalButton.style.background = 'linear-gradient(236.56deg, #2C2D65 0.35%, #201F22 100%)';
+closeModalButton.style.color = 'white';
+closeModalButton.style.border = 'none';
+closeModalButton.style.fontWeight = '500';
 closeModalButton.addEventListener('click', () => {
     modal.style.display = 'none'; // Masque la modale
 });
 modal.appendChild(closeModalButton); // Ajoute le bouton à la modale
-
 // Empêche le rechargement de la page lors du clic sur le bouton et appelle la fonction `meals`
 button.addEventListener('click', (event) => {
     event.preventDefault(); // Empêche le comportement par défaut du formulaire
