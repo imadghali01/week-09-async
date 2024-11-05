@@ -14,7 +14,7 @@ const modalContent = document.querySelector('.modalContent'); // Sélection du d
 // STYLE
 body.style.background = 'linear-gradient(236.56deg, #2C2D65 0.35%, #201F22 100%)';
 
-container.style.padding = '200px 400px';
+container.style.padding = '200px 200px';
 container.style.display = 'flex';
 container.style.flexDirection = 'column';
 container.style.gap = '30px';
